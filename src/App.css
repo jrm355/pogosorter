@@ -1,7 +1,9 @@
+/* General styling for the entire app */
 .app {
   text-align: center;
 }
 
+/* Styling for raid and battle teams */
 .raid-team, .battle-team {
   margin: 20px;
   padding: 10px;
@@ -9,10 +11,47 @@
   background-color: #f0f8ff;
 }
 
+/* Style for individual Pokémon slots (cards) */
 .pokemon-slot {
   margin: 10px;
   padding: 20px;
   background-color: #b3d9ff;
   border: 1px solid #007acc;
-  border-radius: 5px;
+  border-radius: 10px; /* Round corners for card effect */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for card depth */
+  width: 150px; /* Set a fixed width for consistency */
+  text-align: center;
+}
+
+/* Pokemon image styling */
+.pokemon-slot img {
+  width: 100px; /* Fixed size for images */
+  height: 100px;
+  border-radius: 50%; /* Circular image */
+  margin-bottom: 10px; /* Space below image */
+}
+
+/* Container for displaying selected Pokémon in a row */
+.pokemon-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow wrap to next line if space is tight */
+  gap: 20px; /* Add some space between cards */
+  margin-bottom: 20px;
+}
+
+/* Styling for the Pokémon card title */
+.pokemon-slot h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Styling for the Pokémon type and CP info */
+.pokemon-slot p {
+  font-size: 12px;
+  color: #333;
 }

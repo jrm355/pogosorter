@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, MenuItem, Select, InputLabel, FormControl, Checkbox, ListItemText, Chip } from '@mui/material';
 import axios from 'axios';
+
+// Example of Pokémon type effectiveness (simplified)
+const typeChart = {
+  normal: ['fighting'],
+  fire: ['water', 'rock', 'fire', 'dragon'],
+  water: ['electric', 'grass'],
+  electric: ['ground'],
+  grass: ['fire', 'ice', 'poison', 'flying', 'bug'],
+  ice: ['fire', 'fighting', 'rock', 'steel'],
+  fighting: ['flying', 'psychic', 'fairy'],
+  poison: ['ground', 'psychic'],
+  ground: ['water', 'ice', 'grass'],
+  flying: ['electric', 'ice', 'rock'],
+  psychic: ['bug', 'ghost', 'dark'],
+  bug: ['fire', 'flying', 'rock'],
+  rock: ['water', 'grass', 'fighting', 'ground', 'steel'],
+  ghost: ['dark'],
+  dragon: ['steel', 'fairy'],
+  dark: ['fighting', 'bug', 'fairy'],
+  steel: ['fire', 'fighting', 'ground'],
+  fairy: ['steel', 'poison'],
+};
 
 function RaidTeam() {
   const [pokemonList, setPokemonList] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(Array(6).fill(null));
+  const [raidBossTypes, setRaidBossTypes] = useState([]); // Store selected raid boss types
 
   useEffect(() => {
     // Fetch Pokémon data from PokeAPI (which includes images)
@@ -16,7 +39,7 @@ function RaidTeam() {
             const pokemonDetails = await axios.get(pokemon.url);
             return {
               name: pokemonDetails.data.name,
-              image: pokemonDetails.data.sprites.front_default, // Pokémon image
+              image: pokemonDetails.data.sprites.front_default,
               max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', // Sample stat (HP)
               typing: pokemonDetails.data.types.map(type => type.type.name), // Pokémon types
             };
@@ -36,24 +59,72 @@ function RaidTeam() {
     setSelectedPokemon(updatedTeam);
   };
 
+  const handleRaidBossTypesChange = (event) => {
+    const { value } = event.target;
+    setRaidBossTypes(value);
+  };
+
+  // Get Pokémon whose types are strong against all selected raid boss types
+  const getSuperEffectiveTypes = (raidBossTypes) => {
+    return pokemonList.filter((pokemon) => {
+      // Check if all selected raid boss types are weak to any of the Pokémon's types
+      return raidBossTypes.every((raidType) => 
+        pokemon.typing.some((type) => typeChart[raidType]?.includes(type))
+      );
+    });
+  };
+
+  const filteredPokemon = raidBossTypes.length > 0 ? getSuperEffectiveTypes(raidBossTypes) : pokemonList;
+
   return (
     <div>
       <h2>Raid Team</h2>
+
+      {/* Raid Boss Type Dropdowns */}
+      <div>
+        <FormControl fullWidth style={{ marginBottom: '20px' }}>
+          <InputLabel>Raid Boss Types</InputLabel>
+          <Select
+            multiple
+            value={raidBossTypes}
+            onChange={handleRaidBossTypesChange}
+            label="Raid Boss Types"
+            renderValue={(selected) => (
+              <div>
+                {selected.map((value) => (
+                  <Chip key={value} label={value.charAt(0).toUpperCase() + value.slice(1)} style={{ margin: 2 }} />
+                ))}
+              </div>
+            )}
+          >
+            {Object.keys(typeChart).map((type) => (
+              <MenuItem key={type} value={type}>
+                <Checkbox checked={raidBossTypes.indexOf(type) > -1} />
+                <ListItemText primary={type.charAt(0).toUpperCase() + type.slice(1)} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      {/* Pokémon Selection */}
       {selectedPokemon.map((pokemon, index) => (
         <Autocomplete
           key={index}
-          options={pokemonList}
+          options={filteredPokemon}
           getOptionLabel={(option) => option.name || ''}
           onChange={(event, newValue) => handlePokemonSelect(index, newValue)}
           renderInput={(params) => <TextField {...params} label={`Pokemon ${index + 1}`} />}
         />
       ))}
-      <div>
+
+      {/* Display Filtered Pokémon in a row (as cards) */}
+      <div className="pokemon-row">
         {selectedPokemon.map((pokemon, index) => (
           pokemon ? (
-            <div key={index} style={{ marginBottom: '20px' }}>
+            <div key={index} className="pokemon-slot">
               <h3>{pokemon.name}</h3>
-              <img src={pokemon.image} alt={pokemon.name} style={{ width: '100px', height: '100px' }} />
+              <img src={pokemon.image} alt={pokemon.name} />
               <p>Max CP: {pokemon.max_cp}</p>
               <p>Typing: {pokemon.typing && pokemon.typing.length > 0 ? pokemon.typing.join(', ') : 'No typings available'}</p>
             </div>
