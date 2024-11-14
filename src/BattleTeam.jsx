@@ -1,69 +1,59 @@
-import React, { useEffect, useState } from 'react';
+// BattleTeam.jsx
+import React, { useState, useEffect } from 'react';
+import { Autocomplete, TextField } from '@mui/material';
+import axios from 'axios';
 
 function BattleTeam() {
   const [pokemonList, setPokemonList] = useState([]);
-  const [selectedPokemon, setSelectedPokemon] = useState(Array(3).fill(""));
-  const [pokemonDetails, setPokemonDetails] = useState(Array(3).fill({ img: "", type: [], maxCp: "" }));
+  const [selectedPokemon, setSelectedPokemon] = useState(Array(3).fill(null));
 
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=1000")
-      .then(response => response.json())
-      .then(data => setPokemonList(data.results))
-      .catch(error => console.error("Error fetching Pokémon list:", error));
+    // Fetch Pokémon data from PogoAPI
+    const fetchPokemonData = async () => {
+      try {
+        const response = await axios.get('https://pogoapi.net/api/v1/pokemon_max_cp.json');
+        const data = Object.values(response.data).map((pokemon) => ({
+          name: pokemon.pokemon_name,
+          max_cp: pokemon.max_cp,
+          typing: pokemon.types,
+        }));
+        setPokemonList(data);
+      } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+      }
+    };
+    fetchPokemonData();
   }, []);
 
-  const handlePokemonChange = (index, pokemonName) => {
-    setSelectedPokemon((prev) => {
-      const newSelection = [...prev];
-      newSelection[index] = pokemonName;
-      return newSelection;
-    });
-
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
-      .then(response => response.json())
-      .then(data => {
-        const types = data.types.map(type => type.type.name);
-        const maxCp = data.stats.find(stat => stat.stat.name === 'special-attack').base_stat * 15;
-
-        setPokemonDetails((prev) => {
-          const newDetails = [...prev];
-          newDetails[index] = {
-            img: data.sprites.front_default,
-            type: types,
-            maxCp: maxCp
-          };
-          return newDetails;
-        });
-      })
-      .catch(error => console.error("Error fetching Pokémon details:", error));
+  const handlePokemonSelect = (index, pokemon) => {
+    const updatedTeam = [...selectedPokemon];
+    updatedTeam[index] = pokemon;
+    setSelectedPokemon(updatedTeam);
   };
 
   return (
     <div>
-      <h2>Go Battle League Team Selector</h2>
-      {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index}>
-          <label>Select Pokémon {index + 1}: </label>
-          <select
-            value={selectedPokemon[index]}
-            onChange={(e) => handlePokemonChange(index, e.target.value)}
-          >
-            <option value="">Choose...</option>
-            {pokemonList.map((pokemon) => (
-              <option key={pokemon.name} value={pokemon.name}>
-                {pokemon.name}
-              </option>
-            ))}
-          </select>
-          {pokemonDetails[index].img && (
-            <div>
-              <img src={pokemonDetails[index].img} alt={selectedPokemon[index]} />
-              <p>Type: {pokemonDetails[index].type.join(", ")}</p>
-              <p>Max CP: {pokemonDetails[index].maxCp}</p>
-            </div>
-          )}
-        </div>
+      <h2>Battle Team</h2>
+      {selectedPokemon.map((pokemon, index) => (
+        <Autocomplete
+          key={index}
+          options={pokemonList}
+          getOptionLabel={(option) => option.name || ''}
+          onChange={(event, newValue) => handlePokemonSelect(index, newValue)}
+          renderInput={(params) => <TextField {...params} label={`Pokemon ${index + 1}`} />}
+        />
       ))}
+      <div>
+        {selectedPokemon.map((pokemon, index) => (
+          pokemon ? (
+            <div key={index}>
+              <h3>{pokemon.name}</h3>
+              <p>Max CP: {pokemon.max_cp}</p>
+              <p>Typing: {pokemon.typing && pokemon.typing.length > 0 ? pokemon.typing.join(', ') : 'No typings available'}</p>
+            </div>
+          ) : null
+        ))}
+      </div>
     </div>
   );
 }

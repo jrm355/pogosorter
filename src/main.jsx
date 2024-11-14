@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import App from './App';
 import RaidTeam from './RaidTeam';
 import BattleTeam from './BattleTeam';
 import './index.css';
 
+// Main component with routing
 function Main() {
   return (
-    <Router>
+    <BrowserRouter> {/* Only use BrowserRouter once here */}
       <div className="main">
         <h1>Welcome to Pokémon GO Team Builder</h1>
         <nav>
@@ -21,7 +22,7 @@ function Main() {
           <Route path="/battle-team" element={<BattleTeam />} />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
