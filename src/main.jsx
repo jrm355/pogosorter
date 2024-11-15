@@ -12,13 +12,14 @@ function Main() {
     <BrowserRouter> {/* Only use BrowserRouter once here */}
       <div className="main">
         <h1>Welcome to the Pokémon Type Filter</h1>
-        <nav>
-        <Link to="/raid-team" className="button">
-            ⚔️ Raid Boss Counter Builder
-          </Link>
-          <Link to="/battle-team" className="button">
-            🔍 Pokémon Type Explorer
-          </Link>        </nav>
+        <nav className="sticky-nav">
+  <Link to="/raid-team" className="button">
+    ⚔️ Raid Boss Counter Builder
+  </Link>
+  <Link to="/battle-team" className="button">
+    🔍 Pokémon Type Explorer
+  </Link>
+</nav>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/raid-team" element={<RaidTeam />} />

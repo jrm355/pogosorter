@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Autocomplete, TextField, MenuItem, Select, InputLabel, FormControl, Checkbox, ListItemText, Chip } from '@mui/material';
 import axios from 'axios';
 
-// Pokémon type effectiveness 
+// Pokémon type effectiveness, ashamed to say I know this by heart
 const typeChart = {
   normal: ['fighting'],
   fire: ['water', 'rock', 'fire'],

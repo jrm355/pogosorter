@@ -1,0 +1,67 @@
+import React, { useState, useEffect } from 'react';
+import './App.css';
+
+const App = () => {
+  const [backgroundImage, setBackgroundImage] = useState('');
+
+  // Get a random Pokémon image for the background using AJAX (XMLHttpRequest)
+  useEffect(() => {
+    const fetchRandomPokemonImage = () => {
+      const randomId = Math.floor(Math.random() * 1010) + 1; // Pokémon IDs range from 1 to 1010
+      const url = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
+      
+      // Create a new XMLHttpRequest object
+      const xhr = new XMLHttpRequest();
+      
+      // Set up the request (GET request to the URL)
+      xhr.open('GET', url, true);
+      
+      // Set up the callback for when the request completes successfully
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          // Parse the JSON response
+          const data = JSON.parse(xhr.responseText);
+          const image = data.sprites.other['official-artwork'].front_default;
+
+          // Check if the image exists and set it as the background
+          if (image) {
+            setBackgroundImage(image);
+          } else {
+            setBackgroundImage('fallback_image_url.png'); // Fallback image if no image is found
+          }
+        } else {
+          // Handle the error if status is not OK
+          console.error('Error fetching Pokémon image:', xhr.status, xhr.statusText);
+          setBackgroundImage('fallback_image_url.png'); 
+        }
+      };
+      
+      // Set up the error callback (in case the request fails)
+      xhr.onerror = () => {
+        console.error('Error fetching Pokémon image.');
+        setBackgroundImage('fallback_image_url.png'); 
+      };
+      
+      // Send the request
+      xhr.send();
+    };
+
+    // Call the function to fetch the Pokémon image
+    fetchRandomPokemonImage();
+  }, []);
+
+  return (
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+      }}
+    >
+      <h2>Select Filter by Raid Boss to find pokemon who are supereffective against a specific typed raid boss</h2>
+      <h2>Select Filter by Pokemon type to find pokemon of a specific type</h2>
+      <h2>Refresh for another random pokemon</h2>
+    </div>
+  );
+};
+
+export default App;

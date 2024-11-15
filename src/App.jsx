@@ -36,8 +36,8 @@ const App = () => {
         backgroundImage: `url(${backgroundImage})`,
       }}
     >
-      <h2>Select Filter by Raid Boss to find pokemon who are supereffective against a specific typed raid boss</h2>
-      <h2>Select Filter by Pokemon tpe to find pokemon of a specific type</h2>
+       <h2>Select Filter by Raid Boss to find pokemon who are supereffective against a specific typed raid boss</h2>
+      <h2>Select Filter by Pokemon type to find pokemon of a specific type</h2>
       <h2>Refresh for another random pokemon</h2>
     </div>
   );

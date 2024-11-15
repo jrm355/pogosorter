@@ -85,3 +85,23 @@ nav {
     gap: 15px;
   }
 }
+.sticky-nav {
+  position: sticky; /* This makes the nav bar sticky */
+  top: 0;           /* Sticks the nav to the top of the screen */
+  background-color: #5557bd; /* Background color */
+  padding: 10px;    /* Padding for spacing */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  z-index: 1000;    /* Ensures it stays above other elements */
+  display: flex;    /* Aligns navigation items horizontally */
+  justify-content: space-around; /* Space out nav links evenly */
+}
+
+.sticky-nav .button {
+  text-decoration: none;
+  color: #032b56; /* Link color */
+  font-size: 18px; /* Font size */
+}
+
+.sticky-nav .button:hover {
+  text-decoration: underline; /* Add an underline effect on hover */
+}
