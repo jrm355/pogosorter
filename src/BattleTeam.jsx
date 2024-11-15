@@ -16,9 +16,10 @@ function BattleTeam() {
           response.data.results.map(async (pokemon) => {
             const pokemonDetails = await axios.get(pokemon.url);
             return {
+              id: pokemonDetails.data.id, // Add Pokémon number
               name: pokemonDetails.data.name,
               image: pokemonDetails.data.sprites.front_default,
-              max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A',
+              max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', 
               typing: pokemonDetails.data.types.map(type => type.type.name),
             };
           })
@@ -86,7 +87,7 @@ function BattleTeam() {
         <Autocomplete
           key={index}
           options={filteredPokemon}
-          getOptionLabel={(option) => option.name || ''}
+          getOptionLabel={(option) => `#${option.id} ${option.name}`}
           onChange={(event, newValue) => handlePokemonSelect(index, newValue)}
           renderInput={(params) => <TextField {...params} label={`Pokemon ${index + 1}`} />}
         />
@@ -100,6 +101,7 @@ function BattleTeam() {
               <h3>{pokemon.name}</h3>
               <img src={pokemon.image} alt={pokemon.name} />
               <p>Max CP: {pokemon.max_cp}</p>
+              <p>Number: #{pokemon.id}</p>
               <p>Typing: {pokemon.typing && pokemon.typing.length > 0 ? pokemon.typing.join(', ') : 'No typings available'}</p>
             </div>
           ) : null

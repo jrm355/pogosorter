@@ -1,9 +1,6 @@
-
-
-.main {
+.main{
   text-align: center;
 }
-
 .button {
   display: inline-block;
   margin: 10px;
@@ -19,3 +16,72 @@
   grid-template-columns: repeat(2, 1fr); /* Adjust for 6 slots in Raid Team */
 }
 
+/* Overall Styling */
+body {
+  font-family: 'Pokemon Solid', sans-serif; /* Install or link a Pokémon-style font */
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle, #c079cb, #6397b5); /* Pokémon-themed colors */
+  color: #333;
+}
+
+/* Main container */
+.main {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Header Styling */
+h1 {
+  font-size: 2.5rem;
+  color: #5f2db5; /* Pokémon blue */
+  text-shadow: 2px 2px 0px #ffcc00, 4px 4px 0px #ac8880;
+  margin-bottom: 20px;
+}
+
+/* Navigation Bar */
+nav {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Navigation Buttons */
+.button {
+  font-size: 1.2rem;
+  padding: 20px 20px;
+  background-color: #2a75bb; /* Pokémon blue */
+  color: white;
+  text-decoration: none;
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 0px 10px 3px rgba(255, 204, 0, 0.7);
+}
+
+/* Active Link Styling */
+.button:active {
+  background-color: #bd9d1e;
+  color: #87a8c8;
+  border: 2px solid #2a75bb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .button {
+    font-size: 1rem;
+    padding: 8px 15px;
+  }
+  nav {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

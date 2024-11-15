@@ -1,8 +1,18 @@
 /* General styling for the entire app */
-.app {
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  padding: 20px;
+  background-size: contain; /* Makes sure the whole image fits */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the image */
 }
-
 /* Styling for raid and battle teams */
 .raid-team, .battle-team {
   margin: 20px;
@@ -17,12 +27,12 @@
   padding: 20px;
   background-color: #b3d9ff;
   border: 1px solid #007acc;
-  border-radius: 10px; /* Round corners for card effect */
+  border-radius: 10px; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for card depth */
-  width: 150px; /* Set a fixed width for consistency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 150px; 
   text-align: center;
 }
 

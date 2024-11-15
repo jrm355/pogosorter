@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Autocomplete, TextField, MenuItem, Select, InputLabel, FormControl, Checkbox, ListItemText, Chip } from '@mui/material';
 import axios from 'axios';
 
-// Example of Pokémon type effectiveness (simplified)
+// Pokémon type effectiveness 
 const typeChart = {
   normal: ['fighting'],
-  fire: ['water', 'rock', 'fire', 'dragon'],
+  fire: ['water', 'rock', 'fire'],
   water: ['electric', 'grass'],
   electric: ['ground'],
   grass: ['fire', 'ice', 'poison', 'flying', 'bug'],
@@ -17,8 +17,8 @@ const typeChart = {
   psychic: ['bug', 'ghost', 'dark'],
   bug: ['fire', 'flying', 'rock'],
   rock: ['water', 'grass', 'fighting', 'ground', 'steel'],
-  ghost: ['dark'],
-  dragon: ['steel', 'fairy'],
+  ghost: ['dark', 'ghost'],
+  dragon: ['dragon', 'fairy'],
   dark: ['fighting', 'bug', 'fairy'],
   steel: ['fire', 'fighting', 'ground'],
   fairy: ['steel', 'poison'],
@@ -30,7 +30,7 @@ function RaidTeam() {
   const [raidBossTypes, setRaidBossTypes] = useState([]); // Store selected raid boss types
 
   useEffect(() => {
-    // Fetch Pokémon data from PokeAPI (which includes images)
+    // Fetch Pokémon data and images from PokeAPI 
     const fetchPokemonData = async () => {
       try {
         const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100'); // Get list of Pokémon
@@ -38,10 +38,11 @@ function RaidTeam() {
           response.data.results.map(async (pokemon) => {
             const pokemonDetails = await axios.get(pokemon.url);
             return {
+              id: pokemonDetails.data.id, // Add Pokémon number
               name: pokemonDetails.data.name,
               image: pokemonDetails.data.sprites.front_default,
-              max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', // Sample stat (HP)
-              typing: pokemonDetails.data.types.map(type => type.type.name), // Pokémon types
+              max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', 
+              typing: pokemonDetails.data.types.map(type => type.type.name),
             };
           })
         );
@@ -112,7 +113,7 @@ function RaidTeam() {
         <Autocomplete
           key={index}
           options={filteredPokemon}
-          getOptionLabel={(option) => option.name || ''}
+          getOptionLabel={(option) => `#${option.id} ${option.name}`}
           onChange={(event, newValue) => handlePokemonSelect(index, newValue)}
           renderInput={(params) => <TextField {...params} label={`Pokemon ${index + 1}`} />}
         />
@@ -126,6 +127,7 @@ function RaidTeam() {
               <h3>{pokemon.name}</h3>
               <img src={pokemon.image} alt={pokemon.name} />
               <p>Max CP: {pokemon.max_cp}</p>
+              <p>Number: #{pokemon.id}</p>
               <p>Typing: {pokemon.typing && pokemon.typing.length > 0 ? pokemon.typing.join(', ') : 'No typings available'}</p>
             </div>
           ) : null
