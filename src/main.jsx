@@ -11,10 +11,10 @@ function Main() {
   return (
     <BrowserRouter> {/* Only use BrowserRouter once here */}
       <div className="main">
-        <h1>Welcome to Pokémon GO Team Builder</h1>
+        <h1>Welcome to the Pokemon Type Filter</h1>
         <nav>
-          <Link to="/raid-team" className="button">Raid Team</Link>
-          <Link to="/battle-team" className="button">Battle Team</Link>
+          <Link to="/raid-team" className="button">Filter By Raid Boss</Link>
+          <Link to="/battle-team" className="button">Filter by Pokemon type</Link>
         </nav>
         <Routes>
           <Route path="/" element={<App />} />

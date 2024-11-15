@@ -39,15 +39,11 @@ const App = () => {
   return (
     <div className="App">
       <h1>Pokémon GO Team Builder</h1>
+      <h2>Select Filter by Raid Boss to find pokemon who are supereffective against a specific typed raid boss</h2>
+      <h2>Select Filter by Pokemon tpe to find pokemon of a specific type</h2>
       
       {/* Search Bar */}
       <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search Pokémon..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
         <div className="autocomplete-suggestions">
           {filteredPokemon.slice(0, 5).map((pokemon) => (
             <div

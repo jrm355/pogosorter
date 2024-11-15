@@ -17,9 +17,3 @@
   grid-template-columns: repeat(2, 1fr); /* Adjust for 6 slots in Raid Team */
 }
 
-.pokemon-slot {
-  padding: 20px;
-  background-color: #cce5ff;
-  text-align: center;
-  border-radius: 8px;
-}
