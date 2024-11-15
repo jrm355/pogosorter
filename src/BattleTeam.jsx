@@ -5,18 +5,19 @@ import axios from 'axios';
 function BattleTeam() {
   const [pokemonList, setPokemonList] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(Array(3).fill(null));
-  const [selectedTypes, setSelectedTypes] = useState([]); // Store selected types for filtering
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   useEffect(() => {
     // Fetch Pokémon data from PokeAPI
     const fetchPokemonData = async () => {
       try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100');
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
         const data = await Promise.all(
           response.data.results.map(async (pokemon) => {
             const pokemonDetails = await axios.get(pokemon.url);
             return {
-              id: pokemonDetails.data.id, // Add Pokémon number
+              // pokemon details on Card
+              id: pokemonDetails.data.id, 
               name: pokemonDetails.data.name,
               image: pokemonDetails.data.sprites.front_default,
               max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', 

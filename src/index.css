@@ -34,7 +34,7 @@ body {
 /* Header Styling */
 h1 {
   font-size: 2.5rem;
-  color: #5f2db5; /* Pokémon blue */
+  color: #5f2db5; 
   text-shadow: 2px 2px 0px #ffcc00, 4px 4px 0px #ac8880;
   margin-bottom: 20px;
 }
@@ -51,7 +51,7 @@ nav {
 .button {
   font-size: 1.2rem;
   padding: 20px 20px;
-  background-color: #2a75bb; /* Pokémon blue */
+  background-color: #2a75bb; 
   color: white;
   text-decoration: none;
   border: 2px solid #ffcc00;
@@ -86,22 +86,22 @@ nav {
   }
 }
 .sticky-nav {
-  position: sticky; /* This makes the nav bar sticky */
-  top: 0;           /* Sticks the nav to the top of the screen */
-  background-color: #5557bd; /* Background color */
-  padding: 10px;    /* Padding for spacing */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-  z-index: 1000;    /* Ensures it stays above other elements */
-  display: flex;    /* Aligns navigation items horizontally */
-  justify-content: space-around; /* Space out nav links evenly */
+  position: sticky; 
+  top: 0;       
+  background-color: #5557bd; 
+  padding: 10px;    
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  z-index: 1000;   
+  display: flex;    
+  justify-content: space-around; 
 }
 
 .sticky-nav .button {
   text-decoration: none;
-  color: #032b56; /* Link color */
-  font-size: 18px; /* Font size */
+  color: #032b56; 
+  font-size: 18px;
 }
 
 .sticky-nav .button:hover {
-  text-decoration: underline; /* Add an underline effect on hover */
+  text-decoration: underline;
 }

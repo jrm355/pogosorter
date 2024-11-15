@@ -27,18 +27,17 @@ const typeChart = {
 function RaidTeam() {
   const [pokemonList, setPokemonList] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(Array(6).fill(null));
-  const [raidBossTypes, setRaidBossTypes] = useState([]); // Store selected raid boss types
-
+  const [raidBossTypes, setRaidBossTypes] = useState([]); 
   useEffect(() => {
     // Fetch Pokémon data and images from PokeAPI 
     const fetchPokemonData = async () => {
       try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100'); // Get list of Pokémon
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151'); // Get list of Pokémon
         const data = await Promise.all(
           response.data.results.map(async (pokemon) => {
             const pokemonDetails = await axios.get(pokemon.url);
             return {
-              id: pokemonDetails.data.id, // Add Pokémon number
+              id: pokemonDetails.data.id, 
               name: pokemonDetails.data.name,
               image: pokemonDetails.data.sprites.front_default,
               max_cp: pokemonDetails.data.stats.find(stat => stat.stat.name === 'hp')?.base_stat || 'N/A', 
